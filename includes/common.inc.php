@@ -8,4 +8,7 @@
 	if(PHP_VERSION < '5.1.0') {
 		exit('PHP Version is out of date!');
 	}
+	
+	require ROOT_PATH.'includes\global.func.php';
+	$GLOBALS['startTime'] = runTime();
 ?>
