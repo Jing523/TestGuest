@@ -19,7 +19,7 @@ require ROOT_PATH.'includes/title.inc.php';
 ?>
 <div id="register">
 	<h2>Member login</h2>
-	<form method="post" action="post.php">
+	<form method="post" name="register" action="post.php">
 		<dl>
 		<dt>Please fill in the table carefully</dt>
 		<dd>user &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name: <input type="text" name="userName" class="text"/></dd>
@@ -28,7 +28,7 @@ require ROOT_PATH.'includes/title.inc.php';
 		<dd>security questions: <input type="text" name="questions" class="text"/></dd>
 		<dd>security answers &nbsp;: <input type="text" name="answers" class="text"/></dd>
 		<dd>sex &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="radio" name="sex" value="male" checked="checked"/>male&nbsp;&nbsp;<input type="radio" name="sex" value="female" />female</dd>
-		<dd class="picture"><img alt="profile picture" src="face/m01.gif" id="faceimg"/></dd>
+		<dd class="picture"><input type="hidden" name="face" value="face/m01" /><img alt="profile picture" src="face/m01.gif" id="faceimg"/></dd>
 		<dd>email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="email" class="text"/></dd>
 		<dd>QQ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="qq" class="text"/></dd>
 		<dd>personal website&nbsp;: <input type="text" name="url" class="text" value="http://"/></dd>
