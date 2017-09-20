@@ -7,7 +7,6 @@ window.onload = function() {
 	}
 };
 function _opener(src) {
-	var faceimg = opener.document.getElementById('faceimg');
-	faceimg.src = src;
+	opener.document.getElementById('faceimg').src = src;
 	opener.document.register.face.value = src;
 }
