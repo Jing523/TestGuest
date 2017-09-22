@@ -32,7 +32,7 @@ require ROOT_PATH.'includes/title.inc.php';
 		<dd>email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="email" class="text"/></dd>
 		<dd>QQ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="qq" class="text"/></dd>
 		<dd>personal website&nbsp;: <input type="text" name="url" class="text" value="http://"/></dd>
-		<dd>security code &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="securityCode" class="text securityCode" /><img src="code.php"></dd>
+		<dd>security code &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="securityCode" class="text securityCode" /><img src="code.php" id="code" /></dd>
 		<dd><input type="submit" class="submit" value="register"/></dd>
 		</dl>
 	</form>
