@@ -4,15 +4,17 @@ define('IN_TG',true);
 define('SCRIPT','register');
 require dirname(__FILE__).'\includes\common.inc.php';
 if($_GET['action'] == 'register') {
-	if(!($_POST['securityCode'] == $_SESSION['code'])) {
-		alert_back('Verification is wrong!');
-	}
+//	if(!($_POST['securityCode'] == $_SESSION['code'])) {
+//		alert_back('Verification is wrong!');
+//	}
 	//include verification file
     include ROOT_PATH.'includes/register.func.php';
 	//define a null array which is used to save submitted legal data 
 	$clean = array();
-	$clean['userName'] = checkUsername($_POST['userName'],2,20);
-	$clean['password'] = $_POST['password'];
+//	$clean['userName'] = checkUsername($_POST['userName'],2,20);
+//	$clean['password'] = checkPassword($_POST['passWord'],$_POST['confirmPassword'],5);
+	$clean['questions'] = checkQuestions($_POST['questions'], 2, 40);
+	$clean['answers'] = checkAnswers($_POST['questions'], $_POST['answers'], 2, 40);
 	print_r($clean);
 }
 
