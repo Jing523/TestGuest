@@ -6,19 +6,22 @@ require dirname(__FILE__).'\includes\common.inc.php';
 if($_GET['action'] == 'register') {
 	if(!($_POST['securityCode'] == $_SESSION['code'])) {
 		alert_back('Verification is wrong!');
-	} 
+	}
+	//include verification file
+    include ROOT_PATH.'includes/register.func.php';
 	//define a null array which is used to save submitted legal data 
 	$clean = array();
-	$clean['userName'] = $_POST['userName'];
+	$clean['userName'] = checkUsername($_POST['userName'],2,20);
 	$clean['password'] = $_POST['password'];
 	print_r($clean);
 }
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-<title>Register Page</title>
+<title>Multi_user Message System--Home Page</title>
 <?php 
 require ROOT_PATH.'includes/title.inc.php';
 ?>

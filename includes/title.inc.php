@@ -1,9 +1,9 @@
-<?php 
+<?php
 if(!defined('IN_TG')) {
-	exit('Access Denied!');
+    exit('Access Denied!');
 }
 if(!defined('SCRIPT')) {
-	exit('Script Error!');
+    exit('Script Error!');
 }
 ?>
 <link rel="shortcut icon" href="favicon.ico"/>

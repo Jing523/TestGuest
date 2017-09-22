@@ -1,11 +1,11 @@
-<?php 
+<?php
 function runTime() {
-	$mTime = explode(' ', microtime());
-	return ($mTime[0] + $mTime[1]); 
+    $mTime = explode(' ', microtime());
+    return ($mTime[0] + $mTime[1]);
 }
 function alert_back($info) {
-	echo "<script type='text/javascript'>alert('$info');history.back();</script>";
-	exit();
+    echo "<script type='text/javascript'>alert('$info');history.back();</script>";
+    exit();
 }
 /**
  *@access public
@@ -16,44 +16,44 @@ function alert_back($info) {
  *@return void produce a code
  */
 function code($width=75,$height=25,$randCode=4,$flag=false) {
-	//produce random number
-	for ($i=0;$i<$randCode;$i++) {
-		$nmsg .= dechex(mt_rand(0,15));
-	}
-	
-	$_SESSION['code'] = $nmsg;
- 
-	//create a new true color image
-	$img = imagecreatetruecolor($width, $height);
-	//allocate a color for an image
-	$white = imagecolorallocate($img, 255, 255, 255);
-	//flood fill
-	imagefill($img,0,0,$white);
-	//create black frame
-	if ($flag) {
-		$black = imagecolorallocate($img, 0, 0,0);
-		imagerectangle($img, 0, 0, $width-1, $height-1, $black);
-	}
-	//create six lines randomly
-	for ($i=0;$i<6;$i++) {
-		$randColor = imagecolorallocate($img, mt_rand(0,255), mt_rand(0,255), mt_rand(0,255));
-		imageline($img, mt_rand(0, $width), mt_rand(0, $height), mt_rand(0, $width), mt_rand(0, $height), $randColor);
-	}
-	//create snowflake randomly
-	for($i=0;$i<100;$i++) {
-		$randColor = imagecolorallocate($img, mt_rand(200,255), mt_rand(200,255), mt_rand(200,255));
-		imagestring($img, 1, mt_rand(1,$width), mt_rand(1,$height), "*", $randColor);
-	}
-	//output verification code
-	for ($i=0;$i<strlen($_SESSION['code']);$i++) {
-		imagestring($img, 5, $i*$width/$randCode+ mt_rand(1,10),
-				mt_rand(1,$height/2), $_SESSION['code'][$i],
-				imagecolorallocate($img, mt_rand(0,100), mt_rand(0,150), mt_rand(0,200)));
-	}
-	//output an image
-	header('Content-Type:image/png');
-	imagepng($img);
-	
-	imagedestroy($img);
+    //produce random number
+    for ($i=0;$i<$randCode;$i++) {
+        $nmsg .= dechex(mt_rand(0,15));
+    }
+
+    $_SESSION['code'] = $nmsg;
+
+    //create a new true color image
+    $img = imagecreatetruecolor($width, $height);
+    //allocate a color for an image
+    $white = imagecolorallocate($img, 255, 255, 255);
+    //flood fill
+    imagefill($img,0,0,$white);
+    //create black frame
+    if ($flag) {
+        $black = imagecolorallocate($img, 0, 0,0);
+        imagerectangle($img, 0, 0, $width-1, $height-1, $black);
+    }
+    //create six lines randomly
+    for ($i=0;$i<6;$i++) {
+        $randColor = imagecolorallocate($img, mt_rand(0,255), mt_rand(0,255), mt_rand(0,255));
+        imageline($img, mt_rand(0, $width), mt_rand(0, $height), mt_rand(0, $width), mt_rand(0, $height), $randColor);
+    }
+    //create snowflake randomly
+    for($i=0;$i<100;$i++) {
+        $randColor = imagecolorallocate($img, mt_rand(200,255), mt_rand(200,255), mt_rand(200,255));
+        imagestring($img, 1, mt_rand(1,$width), mt_rand(1,$height), "*", $randColor);
+    }
+    //output verification code
+    for ($i=0;$i<strlen($_SESSION['code']);$i++) {
+        imagestring($img, 5, $i*$width/$randCode+ mt_rand(1,10),
+            mt_rand(1,$height/2), $_SESSION['code'][$i],
+            imagecolorallocate($img, mt_rand(0,100), mt_rand(0,150), mt_rand(0,200)));
+    }
+    //output an image
+    header('Content-Type:image/png');
+    imagepng($img);
+
+    imagedestroy($img);
 }
 ?>
