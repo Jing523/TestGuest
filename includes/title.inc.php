@@ -3,7 +3,7 @@ if(!defined('IN_TG')) {
 	exit('Access Denied!');
 }
 if(!defined('SCRIPT')) {
-	exit('Script Eooro!');
+	exit('Script Error!');
 }
 ?>
 <link rel="shortcut icon" href="favicon.ico"/>

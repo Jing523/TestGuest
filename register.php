@@ -1,13 +1,24 @@
 <?php
+session_start();
 define('IN_TG',true);
 define('SCRIPT','register');
 require dirname(__FILE__).'\includes\common.inc.php';
+if($_GET['action'] == 'register') {
+	if(!($_POST['securityCode'] == $_SESSION['code'])) {
+		alert_back('Verification is wrong!');
+	} 
+	//define a null array which is used to save submitted legal data 
+	$clean = array();
+	$clean['userName'] = $_POST['userName'];
+	$clean['password'] = $_POST['password'];
+	print_r($clean);
+}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-<title>多用户留言系统--注册</title>
+<title>Register Page</title>
 <?php 
 require ROOT_PATH.'includes/title.inc.php';
 ?>
@@ -19,7 +30,7 @@ require ROOT_PATH.'includes/title.inc.php';
 ?>
 <div id="register">
 	<h2>Member login</h2>
-	<form method="post" name="register" action="post.php">
+	<form method="post" name="register" action="register.php?action=register">
 		<dl>
 		<dt>Please fill in the table carefully</dt>
 		<dd>user &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name: <input type="text" name="userName" class="text"/></dd>
