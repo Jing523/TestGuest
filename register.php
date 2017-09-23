@@ -15,9 +15,16 @@ if($_GET['action'] == 'register') {
 //	$clean['password'] = checkPassword($_POST['passWord'],$_POST['confirmPassword'],5);
 	$clean['questions'] = checkQuestions($_POST['questions'], 2, 40);
 	$clean['answers'] = checkAnswers($_POST['questions'], $_POST['answers'], 2, 40);
+	$clean['email'] = checkEmail($_POST['email']);
+	$clean['qq'] = checkNumber($_POST['qq']);
+	$clean['url'] = checkUrl($_POST['url']);
 	print_r($clean);
 }
-
+if (preg_match('/https?/', 'httpssssss')) {
+    echo 'match';
+} else {
+    echo 'not match';
+}
 ?>
 <!DOCTYPE html>
 <html>

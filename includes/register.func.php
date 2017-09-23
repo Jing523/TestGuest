@@ -14,7 +14,7 @@ if (!function_exists('alert_back')) {
     exit('alert_back() does not exist!');
 }
 /**
- * check and filter username
+ * check username to determine if it is legal
  * @access public
  * @param string $string
  * @param int $maxLen
@@ -49,7 +49,7 @@ function checkUsername($username, $minLen, $maxLen)
 }
 
 /**
- * check password
+ * check password to determine if it is legal
  * @access public
  * @param string $password
  * @param string $confirmedPassword
@@ -69,7 +69,7 @@ function checkPassword($password, $confirmedPassword, $minLen) {
 }
 
 /**
- * checkQuestions return questions
+ * check questions to determine if it is legal
  * @param string $questions
  * @param int $minLen
  * @param int $maxLen
@@ -98,4 +98,51 @@ function checkAnswers($questions, $answers, $minLen, $maxLen) {
     }
 
     return $answers;
+}
+
+function checkEmail($email) {
+    if(empty($email)) {
+        return null;
+    } else {
+        if(!preg_match('/^[\w\_\-\.]+@[\w\_\-\.]+(\.\w+)+$/',$email)) {
+            alert_back('The email address is illegal.');
+        }
+    }
+
+    return $email;
+}
+
+/**
+ * check QQ number to determine if it is legal
+ * @access public
+ * @param int $number
+ * @return int $number
+ */
+function checkNumber($number) {
+    if (empty($number)) {
+        return null;
+    } else {
+        if (!preg_match('/^[1-9]{1}[0-9]{4,10}$/', $number)) {
+            alert_back('QQ number is illegal.');
+        }
+    }
+
+    return $number;
+ }
+
+/**
+ * check url to determine if it is legal
+ * @param string $url
+ * @return string $url
+ */
+function checkUrl($url) {
+    if(empty($url) || ($url == 'http://')) {
+        return null;
+    } else {
+        if (preg_match('/^https?:\/\/(\w+\.)?[\w\-\_\.]+(\.\w+)+$/', $url)) {
+            alert_back('URL is illegal.');
+        }
+    }
+
+    return $url;
 }
