@@ -4,27 +4,69 @@ define('IN_TG',true);
 define('SCRIPT','register');
 require dirname(__FILE__).'\includes\common.inc.php';
 if($_GET['action'] == 'register') {
-//	if(!($_POST['securityCode'] == $_SESSION['code'])) {
-//		alert_back('Verification is wrong!');
-//	}
+//    checkSecurityCode($_POST['securityCode'], $_SESSION['securityCode']);
 	//include verification file
     include ROOT_PATH.'includes/register.func.php';
 	//define a null array which is used to save submitted legal data 
 	$clean = array();
-//	$clean['userName'] = checkUsername($_POST['userName'],2,20);
-//	$clean['password'] = checkPassword($_POST['passWord'],$_POST['confirmPassword'],5);
-	$clean['questions'] = checkQuestions($_POST['questions'], 2, 40);
-	$clean['answers'] = checkAnswers($_POST['questions'], $_POST['answers'], 2, 40);
-	$clean['email'] = checkEmail($_POST['email']);
+	$clean['uniqid'] = checkUniqid($_POST['uniqid'], $_SESSION['uniqid']);
+	$clean['active'] = sha1Uniqid();
+	$clean['userName'] = checkUsername($_POST['userName'],2,20);
+	$clean['password'] = checkPassword($_POST['passWord'],$_POST['confirmPassword'],5);
+	$clean['question'] = checkQuestion($_POST['question'], 2, 40);
+	$clean['answer'] = checkAnswer($_POST['question'], $_POST['answer'], 2, 40);
+    $clean['sex'] = checkSex(checkSex($_POST['sex']));
+    $clean['picture'] = checkPicture($_POST['picture']);
+	$clean['email'] = checkEmail($_POST['email'], 6, 40);
 	$clean['qq'] = checkNumber($_POST['qq']);
-	$clean['url'] = checkUrl($_POST['url']);
-	print_r($clean);
-}
-if (preg_match('/https?/', 'httpssssss')) {
-    echo 'match';
+	$clean['url'] = checkUrl($_POST['url'], 40);
+
+    $query = $mysqli->query("SELECT tg_username FROM tg_user WHERE tg_username='{$clean['userName']}'");
+    if ($query->fetch_array(MYSQLI_ASSOC)) {
+        alert_back('Sorry, this username has already been registered, please try again');
+    }
+	$mysqli->query(
+	            "INSERT INTO tg_user (
+                                            tg_uniqid,
+                                            tg_active,
+                                            tg_username,
+                                            tg_password,
+                                            tg_question,
+                                            tg_answer,
+                                            tg_email,
+                                            tg_qq_number,
+                                            tg_url,
+                                            tg_sex,
+                                            tg_face,
+                                            tg_reg_time,
+                                            tg_last_login_time,
+                                            tg_last_login_ip
+                                            )
+                                    VALUES (
+                                            '{$clean['uniqid']}',
+                                            '{$clean['active']}',
+                                            '{$clean['userName']}',
+                                            '{$clean['password']}',
+                                            '{$clean['question']}',
+                                            '{$clean['answer']}',
+                                            '{$clean['email']}',
+                                            '{$clean['qq']}',
+                                            '{$clean['url']}',
+                                            '{$clean['sex']}',
+                                            '{$clean['picture']}',
+                                            NOW(),
+                                            NOW(),
+                                            '{$_SERVER['REMOTE_ADDR']}'
+                                            
+                                    )"
+
+    ) or die('Something is wrong.'.$mysqli->error);
+    $mysqli->close();
+    location('Congratulations， register successfully.', 'index.php');
 } else {
-    echo 'not match';
+    $_SESSION['uniqid'] = $uniqid = sha1Uniqid();
 }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -43,13 +85,14 @@ require ROOT_PATH.'includes/title.inc.php';
 <div id="register">
 	<h2>Member login</h2>
 	<form method="post" name="register" action="register.php?action=register">
+        <input type="hidden" name="uniqid" value="<?php echo $uniqid ?>"/>
 		<dl>
 		<dt>Please fill in the table carefully</dt>
 		<dd>user &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name: <input type="text" name="userName" class="text"/></dd>
 		<dd>password &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="password" name="passWord" class="text"/></dd>
 		<dd>confirm password: <input type="password" name="confirmPassword" class="text"/></dd>
-		<dd>security questions: <input type="text" name="questions" class="text"/></dd>
-		<dd>security answers &nbsp;: <input type="text" name="answers" class="text"/></dd>
+		<dd>security questions: <input type="text" name="question" class="text"/></dd>
+		<dd>security answers &nbsp;: <input type="text" name="answer" class="text"/></dd>
 		<dd>sex &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="radio" name="sex" value="male" checked="checked"/>male&nbsp;&nbsp;<input type="radio" name="sex" value="female" />female</dd>
 		<dd class="picture"><input type="hidden" name="face" value="face/m01" /><img alt="profile picture" src="face/m01.gif" id="faceimg"/></dd>
 		<dd>email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" name="email" class="text"/></dd>

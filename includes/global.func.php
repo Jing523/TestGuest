@@ -7,6 +7,19 @@ function alert_back($info) {
     echo "<script type='text/javascript'>alert('$info');history.back();</script>";
     exit();
 }
+
+function location($info, $url) {
+    echo "<script type='text/javascript'>alert('$info');location.href='$url';</script>";
+}
+function sha1Uniqid() {
+    return sha1(uniqid(rand(),true));
+}
+
+function checkSecurityCode($inputCode, $securityCode) {
+    if ($inputCode != $securityCode) {
+        alert_back('Security code is wrong.');
+    }
+}
 /**
  *@access public
  *@param int $width the length of code
@@ -16,12 +29,13 @@ function alert_back($info) {
  *@return void produce a code
  */
 function code($width=75,$height=25,$randCode=4,$flag=false) {
+    $nmsg = null;
     //produce random number
     for ($i=0;$i<$randCode;$i++) {
         $nmsg .= dechex(mt_rand(0,15));
     }
 
-    $_SESSION['code'] = $nmsg;
+    $_SESSION['securityCode'] = $nmsg;
 
     //create a new true color image
     $img = imagecreatetruecolor($width, $height);
@@ -45,9 +59,9 @@ function code($width=75,$height=25,$randCode=4,$flag=false) {
         imagestring($img, 1, mt_rand(1,$width), mt_rand(1,$height), "*", $randColor);
     }
     //output verification code
-    for ($i=0;$i<strlen($_SESSION['code']);$i++) {
+    for ($i=0;$i<strlen($_SESSION['securityCode']);$i++) {
         imagestring($img, 5, $i*$width/$randCode+ mt_rand(1,10),
-            mt_rand(1,$height/2), $_SESSION['code'][$i],
+            mt_rand(1,$height/2), $_SESSION['securityCode'][$i],
             imagecolorallocate($img, mt_rand(0,100), mt_rand(0,150), mt_rand(0,200)));
     }
     //output an image

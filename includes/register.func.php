@@ -13,6 +13,15 @@ if (!defined('IN_TG')) {
 if (!function_exists('alert_back')) {
     exit('alert_back() does not exist!');
 }
+
+function checkUniqid($firstUniqid, $endUniqid) {
+//    alert_back($firstUniqid.'\n'.$endUniqid);
+
+    if ((strlen($firstUniqid) != 40) || ($firstUniqid != $endUniqid)) {
+        alert_back("UniqId is abnormal.");
+    }
+    return $firstUniqid;
+}
 /**
  * check username to determine if it is legal
  * @access public
@@ -76,36 +85,50 @@ function checkPassword($password, $confirmedPassword, $minLen) {
  * @return string $questions return questions
  */
 
-function checkQuestions($questions, $minLen, $maxLen) {
-    $stringLen = strlen($questions);
+function checkQuestion($question, $minLen, $maxLen) {
+    $question = trim($question);
+    $stringLen = strlen($question);
 
     if ($stringLen < $minLen || $stringLen > $maxLen) {
-        alert_back('The length of questions should be more than '.$minLen.' and less than '.$maxLen.'.');
+        alert_back('The length of question should be more than '.$minLen.' and less than '.$maxLen.'.');
     }
 
-    return $questions;
+    return $question;
 }
 
-function checkAnswers($questions, $answers, $minLen, $maxLen) {
-    $stringLen = strlen($answers);
+function checkAnswer($question, $answer, $minLen, $maxLen) {
+    $answer = trim($answer);
+    $stringLen = strlen($answer);
 
     if ($stringLen < $minLen || $stringLen > $maxLen) {
-        alert_back('The length of answers should be more than '.$minLen.' and less than '.$maxLen.'.');
+        alert_back('The length of answer should be more than '.$minLen.' and less than '.$maxLen.'.');
     }
 
-    if ($questions == $answers) {
-        alert_back('Answers should be different from questions.');
+    if ($question == $answer) {
+        alert_back('The answer should be different from the question.');
     }
 
-    return $answers;
+    return $answer;
 }
 
-function checkEmail($email) {
+function checkSex($sex) {
+    return $sex;
+}
+
+function checkPicture($picture) {
+    return $picture;
+}
+
+function checkEmail($email, $minLen, $maxLen) {
     if(empty($email)) {
         return null;
     } else {
         if(!preg_match('/^[\w\_\-\.]+@[\w\_\-\.]+(\.\w+)+$/',$email)) {
             alert_back('The email address is illegal.');
+        }
+        $stringLen = strlen($email);
+        if ($stringLen < $minLen || $stringLen > $maxLen) {
+            alert_back('The length of email is illegal.');
         }
     }
 
@@ -135,12 +158,16 @@ function checkNumber($number) {
  * @param string $url
  * @return string $url
  */
-function checkUrl($url) {
+function checkUrl($url, $maxLen) {
     if(empty($url) || ($url == 'http://')) {
         return null;
     } else {
-        if (preg_match('/^https?:\/\/(\w+\.)?[\w\-\_\.]+(\.\w+)+$/', $url)) {
+        if (!preg_match('/^https?:\/\/(\w+\.)?[\w\-\.]+(\.\w+)+$/', $url)) {
             alert_back('URL is illegal.');
+        }
+        $stringLen = strlen($url);
+        if ($stringLen > $maxLen) {
+            alert_back('The length of url is too long.');
         }
     }
 
