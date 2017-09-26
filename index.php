@@ -20,7 +20,7 @@ require dirname(__FILE__).'\includes\common.inc.php';
 require ROOT_PATH.'includes/header.inc.php';
 ?>
 <div id="list">
-    <h2>帖子列表</h2>
+    <h2>Post List</h2>
 </div>
 
 <div id="user">

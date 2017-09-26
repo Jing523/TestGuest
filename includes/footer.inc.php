@@ -3,7 +3,7 @@ if(!defined('IN_TG')) {
     exit('Access Denied!');
 }
 
-$mysqli->close();
+closeDatabase($mysqli);
 ?>
 <!DOCTYPE html>
 <html>

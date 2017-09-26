@@ -4,7 +4,7 @@ define('IN_TG',true);
 define('SCRIPT','register');
 require dirname(__FILE__).'\includes\common.inc.php';
 if($_GET['action'] == 'register') {
-//    checkSecurityCode($_POST['securityCode'], $_SESSION['securityCode']);
+    checkSecurityCode($_POST['securityCode'], $_SESSION['securityCode']);
 	//include verification file
     include ROOT_PATH.'includes/register.func.php';
 	//define a null array which is used to save submitted legal data 
@@ -12,7 +12,7 @@ if($_GET['action'] == 'register') {
 	$clean['uniqid'] = checkUniqid($_POST['uniqid'], $_SESSION['uniqid']);
 	$clean['active'] = sha1Uniqid();
 	$clean['userName'] = checkUsername($_POST['userName'],2,20);
-	$clean['password'] = checkPassword($_POST['passWord'],$_POST['confirmPassword'],5);
+	$clean['password'] = checkPassword($_POST['passWord'],$_POST['confirmPassword'],6);
 	$clean['question'] = checkQuestion($_POST['question'], 2, 40);
 	$clean['answer'] = checkAnswer($_POST['question'], $_POST['answer'], 2, 40);
     $clean['sex'] = checkSex(checkSex($_POST['sex']));
@@ -21,11 +21,10 @@ if($_GET['action'] == 'register') {
 	$clean['qq'] = checkNumber($_POST['qq']);
 	$clean['url'] = checkUrl($_POST['url'], 40);
 
-    $query = $mysqli->query("SELECT tg_username FROM tg_user WHERE tg_username='{$clean['userName']}'");
-    if ($query->fetch_array(MYSQLI_ASSOC)) {
-        alert_back('Sorry, this username has already been registered, please try again');
-    }
-	$mysqli->query(
+    isRepeat($mysqli, "SELECT tg_username FROM tg_user WHERE tg_username='{$clean['userName']}' LIMIT 1",
+        'Sorry, this username has already been registered, please try again');
+
+	queryDatabase($mysqli,
 	            "INSERT INTO tg_user (
                                             tg_uniqid,
                                             tg_active,
@@ -60,8 +59,9 @@ if($_GET['action'] == 'register') {
                                             
                                     )"
 
-    ) or die('Something is wrong.'.$mysqli->error);
-    $mysqli->close();
+    );
+//    $mysqli->close();
+    closeDatabase($mysqli);
     location('Congratulations， register successfully.', 'index.php');
 } else {
     $_SESSION['uniqid'] = $uniqid = sha1Uniqid();
@@ -76,7 +76,7 @@ if($_GET['action'] == 'register') {
 <?php 
 require ROOT_PATH.'includes/title.inc.php';
 ?>
-<script type="text/javascript" src="js/face.js"></script>
+<script type="text/javascript" src="js/register.js"></script>
 </head>
 <body>
 <?php 
